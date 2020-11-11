@@ -1,0 +1,68 @@
+<!doctype html>
+<html>
+<head>
+  <title>Datastore and Firebase Auth Example</title>
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.0.1/firebase-app.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+         https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="https://www.gstatic.com/firebasejs/8.0.1/firebase-analytics.js"></script>
+
+    <script>
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        var firebaseConfig = {
+            apiKey: "AIzaSyAj6lzvhT9BNwPeloTqhw90Q1qJCEM2uKg",
+            authDomain: "tech-insights-295301.firebaseapp.com",
+            databaseURL: "https://tech-insights-295301.firebaseio.com",
+            projectId: "tech-insights-295301",
+            storageBucket: "tech-insights-295301.appspot.com",
+            messagingSenderId: "302381642649",
+            appId: "1:302381642649:web:b2fcb61c4c4e9b423e1908",
+            measurementId: "G-SN1T9TG7YF"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        firebase.analytics();
+    </script>
+
+    <script>
+    if (typeof firebase === 'undefined') {
+      const msg = "Please paste the Firebase initialization snippet into index.html. See https://console.firebase.google.com > Overview > Add Firebase to your web app.";
+      console.log(msg);
+      alert(msg);
+    }
+  </script>
+  <!-- [START gae_python38_auth_include_firebaseui] -->
+  <script src="https://www.gstatic.com/firebasejs/ui/4.5.0/firebase-ui-auth.js"></script>
+  <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.5.0/firebase-ui-auth.css">
+  <!-- [END gae_python38_auth_include_firebaseui] -->
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+  <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+<body>
+<h1>Tech Insights</h1>
+
+<!-- [START gae_python38_auth_firebase_html] -->
+<div id="firebaseui-auth-container"></div>
+
+<button id="sign-out" hidden="true">Sign Out</button>
+
+<div id="login-info" >
+  {% if article_data %}
+    <dl>
+	{% for data in article_data %}
+        <h4>{{ data['title'] }}</h4>
+        <dt>{{ data['summary'] }}</dt>
+        <dt>{{ data['article_url'] }}</dt>
+    {% endfor %} </dd>
+    </dl>
+  {% elif error_message %}
+    <p>Error: {{ error_message }}</p>
+  {% endif %}
+</div>
+
+</body>
+</html>
