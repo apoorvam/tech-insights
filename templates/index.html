@@ -50,12 +50,12 @@
 
 <button id="sign-out" hidden="true">Sign Out</button>
 
-<div id="login-info" >
+<div id="news" align="center" role="presentation" >
   {% if article_data %}
     <dl>
 	{% for data in article_data %}
         <h4>{{ data['title'] }}</h4>
-        <dt>{{ data['summary'] }}</dt>
+        <dt style="width: 50%;">{{ data['summary'] }}</dt>
         <dt>{{ data['article_url'] }}</dt>
     {% endfor %} </dd>
     </dl>

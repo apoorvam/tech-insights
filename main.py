@@ -53,7 +53,6 @@ def root():
     # Verify Firebase auth.
     id_token = request.cookies.get("token")
     error_message = None
-    store_article()
     articles = fetch_articles(1)
 
     return render_template(
