@@ -13,7 +13,7 @@
         // Your web app's Firebase configuration
         // For Firebase JS SDK v7.20.0 and later, measurementId is optional
         var firebaseConfig = {
-            apiKey: "AIzaSyAj6lzvhT9BNwPeloTqhw90Q1qJCEM2uKg",
+            apiKey: process.env.GC_FIREBASE_API_KEY,
             authDomain: "tech-insights-295301.firebaseapp.com",
             databaseURL: "https://tech-insights-295301.firebaseio.com",
             projectId: "tech-insights-295301",
@@ -54,9 +54,16 @@
   {% if article_data %}
     <dl>
 	{% for data in article_data %}
-        <h4>{{ data['title'] }}</h4>
+        <h4><a href="{{ data['article_url'] }}" target="_blank">{{ data['title'] }}</a></h4>
         <dt style="width: 50%;">{{ data['summary'] }}</dt>
-        <dt>{{ data['article_url'] }}</dt>
+        <dt>
+            <figure>
+            <figcaption>Listen to the Article:</figcaption>
+            <audio controls src="/api/speech/{{data['article_id']}}" preload="none">
+                Your browser does not support the <code>audio</code> element.
+            </audio>
+        </figure>
+        </dt>
     {% endfor %} </dd>
     </dl>
   {% elif error_message %}

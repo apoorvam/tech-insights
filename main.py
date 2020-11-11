@@ -19,20 +19,19 @@ from google.auth.transport import requests
 from google.cloud import datastore
 import google.oauth2.id_token
 
+from audio_generator import generate_audio
+
 firebase_request_adapter = requests.Request()
 
-# [START gae_python38_datastore_store_and_fetch_user_times]
 datastore_client = datastore.Client()
 
-# [END gae_python38_datastore_store_and_fetch_user_times]
 app = Flask(__name__)
 
-
-# [START gae_python38_datastore_store_and_fetch_user_times]
 def store_article():
-    entity = datastore.Entity(key=datastore_client.key('Article',
-                                                       '0a10f9d3e931d1f3ef201f05ff0e3b6b42ce6b16'))
+    article_id='0a10f9d3e931d1f3ef201f05ff0e3b6b42ce6b16'
+    entity = datastore.Entity(key=datastore_client.key('Article', article_id))
     entity.update({
+        'article_id': article_id,
         'title': 'Brightcove Introduces Jump Start for Apple TV® to Accelerate New Video Apps on Fourth-Generation Apple TV®',
         'summary': 'Brightcove Inc. (NASDAQ: BCOV), the leading provider of cloud services for video, today announced Brightcove Jump Start for Apple TV® , a new service offering to enable publishers to quickly launch video apps on the fourth-generation Apple TV®. For a limited time, starting at $10,000 USD, the new Jump Start offering builds on Brightcove’s existing expertise and history of delivering and monetizing a range of beautiful video experiences on the Apple TV® platform and across the Apple® ecosystem.',
         'article_url': 'https://www.brightcove.com/en/company/press/brightcove-introduces-jump-start-apple-tv-accelerate-new-video-apps-fourth-generation-apple-tv'
@@ -47,7 +46,6 @@ def fetch_articles(limit):
     return articles
 
 
-# [START gae_python38_datastore_render_user_times]
 @app.route('/')
 def root():
     # Verify Firebase auth.
@@ -58,8 +56,16 @@ def root():
     return render_template(
         'index.html',
         article_data=articles, error_message=error_message)
-# [END gae_python38_datastore_render_user_times]
 
+
+@app.route('/api/speech/<article_id>')
+def speech(article_id):
+    ancestor = datastore_client.key('Article', article_id)
+    query = datastore_client.query(kind='Article', ancestor=ancestor)
+    got = query.fetch(limit=1)
+    text = list(got)[0]['summary']
+
+    return generate_audio(text)
 
 if __name__ == '__main__':
     # This is used when running locally only. When deploying to Google App

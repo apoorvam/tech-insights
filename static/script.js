@@ -16,8 +16,7 @@
 'use strict';
 
 window.addEventListener('load', function () {
-  
-  // [START gae_python38_auth_signout]
+
   document.getElementById('sign-out').onclick = function () {
     firebase.auth().signOut();
   };
@@ -71,3 +70,4 @@ window.addEventListener('load', function () {
   });
   // [END gae_python38_auth_request]
 });
+
