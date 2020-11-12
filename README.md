@@ -1,7 +1,7 @@
 # tech-insights
 
-TechInsights is a news site with links and summaries of latest updates in the tech industry for
-busy technologists with a clean and simple layout. It provides a collection of articles,
+TechInsights is a simplified news site for busy technologists with links and summaries of latest
+ updates in the tech industry. It provides a collection of articles,
 simplified AI generated short summary, link to original article and a audio version of the news that one can listen to as they start day. 
 
 ## Project Tech Stack
