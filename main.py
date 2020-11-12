@@ -27,15 +27,22 @@ datastore_client = datastore.Client()
 
 app = Flask(__name__)
 
-def store_article():
-    article_id='0a10f9d3e931d1f3ef201f05ff0e3b6b42ce6b16'
+def store_article(article_id, title, summary, url):
+    # article_id='0a10f9d3e931d1f3ef201f05ff0e3b6b42ce6b16'
     entity = datastore.Entity(key=datastore_client.key('Article', article_id))
+    # entity.update({
+    #     'article_id': article_id,
+    #     'title': 'Brightcove Introduces Jump Start for Apple TV® to Accelerate New Video Apps on Fourth-Generation Apple TV®',
+    #     'summary': 'Brightcove Inc. (NASDAQ: BCOV), the leading provider of cloud services for video, today announced Brightcove Jump Start for Apple TV® , a new service offering to enable publishers to quickly launch video apps on the fourth-generation Apple TV®. For a limited time, starting at $10,000 USD, the new Jump Start offering builds on Brightcove’s existing expertise and history of delivering and monetizing a range of beautiful video experiences on the Apple TV® platform and across the Apple® ecosystem.',
+    #     'article_url': 'https://www.brightcove.com/en/company/press/brightcove-introduces-jump-start-apple-tv-accelerate-new-video-apps-fourth-generation-apple-tv'
+    # })
+
     entity.update({
-        'article_id': article_id,
-        'title': 'Brightcove Introduces Jump Start for Apple TV® to Accelerate New Video Apps on Fourth-Generation Apple TV®',
-        'summary': 'Brightcove Inc. (NASDAQ: BCOV), the leading provider of cloud services for video, today announced Brightcove Jump Start for Apple TV® , a new service offering to enable publishers to quickly launch video apps on the fourth-generation Apple TV®. For a limited time, starting at $10,000 USD, the new Jump Start offering builds on Brightcove’s existing expertise and history of delivering and monetizing a range of beautiful video experiences on the Apple TV® platform and across the Apple® ecosystem.',
-        'article_url': 'https://www.brightcove.com/en/company/press/brightcove-introduces-jump-start-apple-tv-accelerate-new-video-apps-fourth-generation-apple-tv'
-    })
+            'article_id': article_id,
+            'title': title,
+            'summary': summary,
+            'article_url': url
+        })
 
     datastore_client.put(entity)
 
