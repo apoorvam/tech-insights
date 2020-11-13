@@ -10,7 +10,7 @@ simplified AI generated short summary, link to original article and a audio vers
 * Hosting: Google Cloud App engine, Firebase
 * Frameworks/Libraries: Google text to speech API, nltk, sklearn
  
-**Dataset source**: [WebHose Technology news articles](https://webhose.io/free-datasets/technology-news-articles/)
+**Dataset source**: [TLDR newsletter](https://www.tldrnewsletter.com)
 
 ## Project setup and usage
 

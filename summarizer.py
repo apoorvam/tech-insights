@@ -6,38 +6,56 @@ from os import listdir
 import nltk
 from nltk.corpus import reuters, stopwords
 from sklearn.feature_extraction.text import TfidfVectorizer
-
+import uuid
 import main
 
-SUMMARY_LENGTH = 10
+nltk.download('punkt')
+nltk.download('reuters')
+nltk.download('stopwords')
+
+SUMMARY_LENGTH = 3
 ideal_sent_length = 20.0
 stemmer = nltk.SnowballStemmer("english")
 stop_words = stopwords.words('english')
-dataset_path = "/Users/shrinidhi/study/StudyMaterial/own_study/tech_new_paper/tech-insights/dataset/"
+dataset_path = "clean_dataset/"
 
 
 class Summarizer:
+
     def generate_summaries(self):
         self.__build_TFIDF_model()
 
         docs_list = listdir(dataset_path)
-
+        count = 0
         for doc_json in docs_list:
             with open(dataset_path + doc_json, 'r', encoding="latin-1") as file:
+                print(doc_json)
                 if ".json" in doc_json:
                     doc = json.load(file)
-                    article_id = doc['uuid']
-                    title = doc['title']
+                    article_id = str(uuid.uuid4())
+                    title = doc['title'].strip()
                     url = doc['url']
-                    doc = doc['text']
+                    doc = doc['text'].strip()
+                    if doc.startswith(title):
+                        doc = doc[len(title):].strip()
 
                     scores = Counter()
                     self.__score_sentences(scores, doc, title)
                     highest_scores = scores.most_common(SUMMARY_LENGTH)
-                    summary = ' '.join([sentence[0] for sentence in highest_scores])
+                    summary = ''
+                    for sentence in highest_scores:
+                        summary += ' ' + self.__getSentence(summary, sentence[0])
+                    count += 1
+                    print(count)
+                    main.store_article(article_id, title, summary.strip(), url)
+        return
 
-                    main.store_article(article_id, title, summary, url)
-        return summary
+    def __getSentence(self, summary, str):
+        if len((summary+' '+str).encode('utf-8')) > 1500:
+            return ''
+        else:
+            return str
+
 
     def __build_TFIDF_model(self):
         """ Build term-document matrix containing TF-IDF score for each word in each document
