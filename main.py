@@ -67,7 +67,7 @@ def speech(article_id):
 
     return generate_audio(text)
 
-@app.route('/api/generate_summary')
+# @app.route('/api/generate_summary')
 def generate_summary():
     summary = summarizer.Summarizer()
     summary.generate_summaries()

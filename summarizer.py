@@ -11,19 +11,18 @@ import main
 
 SUMMARY_LENGTH = 3
 ideal_sent_length = 20.0
-stemmer = nltk.SnowballStemmer("english")
-stop_words = stopwords.words('english')
 dataset_path = "clean_dataset/"
-
 
 class Summarizer:
 
-    def generate_summaries(self):
+    def __init__(self):
         nltk.download('punkt')
         nltk.download('reuters')
         nltk.download('stopwords')
+        self.stemmer = nltk.SnowballStemmer("english")
+        self.stop_words = stopwords.words('english')
 
-
+    def generate_summaries(self):
         self.__build_TFIDF_model()
 
         docs_list = listdir(dataset_path)
@@ -79,7 +78,7 @@ class Summarizer:
         for token in tokens:
             if re.search('[a-zA-Z]', token):
                 filtered.append(token)
-        stems = [stemmer.stem(t) for t in filtered]
+        stems = [self.stemmer.stem(t) for t in filtered]
         return stems
 
     def __score_sentences(self, scores, doc, title):
@@ -132,8 +131,8 @@ class Summarizer:
         return sent_scores
 
     def __headline_score(self, title, sentence):
-        title_stems = [stemmer.stem(w) for w in title if w not in stop_words]
-        sentence_stems = [stemmer.stem(w) for w in sentence if w not in stop_words]
+        title_stems = [self.stemmer.stem(w) for w in title if w not in self.stop_words]
+        sentence_stems = [self.stemmer.stem(w) for w in sentence if w not in self.stop_words]
         count = 0.0
         for word in sentence_stems:
             if word in title_stems:
