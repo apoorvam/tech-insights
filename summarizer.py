@@ -9,10 +9,6 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 import uuid
 import main
 
-nltk.download('punkt')
-nltk.download('reuters')
-nltk.download('stopwords')
-
 SUMMARY_LENGTH = 3
 ideal_sent_length = 20.0
 stemmer = nltk.SnowballStemmer("english")
@@ -23,6 +19,11 @@ dataset_path = "clean_dataset/"
 class Summarizer:
 
     def generate_summaries(self):
+        nltk.download('punkt')
+        nltk.download('reuters')
+        nltk.download('stopwords')
+
+
         self.__build_TFIDF_model()
 
         docs_list = listdir(dataset_path)
